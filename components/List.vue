@@ -9,9 +9,9 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
+import { defineComponent } from "@nuxtjs/composition-api"
 
-export default Vue.extend({
+const List = defineComponent({
   props: {
     list: {
       type: Array,
@@ -19,4 +19,6 @@ export default Vue.extend({
     },
   },
 })
+
+export default List
 </script>
