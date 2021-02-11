@@ -1,8 +1,8 @@
 <template>
   <div>
     <ul>
-      <li v-for="item in list" :key="item.title">
-        {{ item.project }}
+      <li v-for="item in list" :key="item[label]">
+        {{ item[label] }}
       </li>
     </ul>
   </div>
@@ -15,6 +15,10 @@ export default defineComponent({
   props: {
     list: {
       type: Array,
+      required: true,
+    },
+    label: {
+      type: String,
       required: true,
     },
   },
