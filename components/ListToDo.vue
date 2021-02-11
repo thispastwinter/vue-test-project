@@ -3,7 +3,8 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
+import { defineComponent } from "@nuxtjs/composition-api"
+import List from "@/components/List.vue"
 
 interface ToDo {
   title: string
@@ -34,7 +35,10 @@ const toDos: ToDo[] = [
   },
 ]
 
-export default Vue.extend({
+export default defineComponent({
+  components: {
+    List,
+  },
   data() {
     return { toDos }
   },

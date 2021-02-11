@@ -8,7 +8,16 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
+import Container from "@/components/Container.vue"
+import Header from "@/components/Header.vue"
+import ListToDo from "@/components/ListToDo.vue"
+import { defineComponent } from "@nuxtjs/composition-api"
 
-export default Vue.extend({})
+export default defineComponent({
+  components: {
+    Header,
+    Container,
+    ListToDo,
+  },
+})
 </script>

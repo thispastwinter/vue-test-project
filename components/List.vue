@@ -11,7 +11,7 @@
 <script lang="ts">
 import { defineComponent } from "@nuxtjs/composition-api"
 
-const List = defineComponent({
+export default defineComponent({
   props: {
     list: {
       type: Array,
@@ -19,6 +19,4 @@ const List = defineComponent({
     },
   },
 })
-
-export default List
 </script>
