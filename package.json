@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^2.0.1",
-    "@nuxt/utils-edge": "^2.15.0-26883395.04646c5e",
+    "@nuxt/utils-edge": "^2.15.0-26889155.dd0eea40",
     "@nuxtjs/axios": "^5.12.5",
     "@nuxtjs/composition-api": "^0.19.1",
     "core-js": "^3.8.3",
