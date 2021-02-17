@@ -1,6 +1,5 @@
 interface ToDo {
   title: string
-  project: string
   complete: boolean
 }
 

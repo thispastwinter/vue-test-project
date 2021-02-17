@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxt-ts",
+    "generate:intellisense": "vue-int --input ./components --output vetur --recursive",
     "build": "nuxt-ts build",
     "start": "nuxt-ts start",
     "generate": "nuxt-ts generate",
@@ -38,5 +39,9 @@
     "prettier": "^2.2.1",
     "ts-jest": "^26.4.4",
     "vue-jest": "^3.0.4"
+  },
+  "vetur": {
+    "tags": "vetur/tags.json",
+    "attributes": "vetur/attributes.json"
   }
 }

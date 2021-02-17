@@ -1,46 +1,55 @@
-import { reactive } from "@nuxtjs/composition-api"
+import { computed, reactive } from "@nuxtjs/composition-api"
 import { ToDo } from "~/types"
-import { fakePromise } from "~/utils"
 
 interface State {
   toDos: ToDo[]
-  loading: boolean
+  toDo: string
 }
 
+const data = [
+  {
+    title: "Todo A",
+    complete: false,
+  },
+  {
+    title: "Todo B",
+    complete: true,
+  },
+  {
+    title: "Todo C",
+    complete: false,
+  },
+  {
+    title: "Todo D",
+    complete: false,
+  },
+]
+
 export default function useToDos() {
-  const toDoState = reactive<State>({
-    toDos: [],
-    loading: true,
+  const state = reactive<State>({
+    toDos: data,
+    toDo: "",
   })
 
-  function getToDos() {
-    const data = [
-      {
-        title: "Todo A",
-        project: "Project A",
-        complete: false,
-      },
-      {
-        title: "Todo B",
-        project: "Project B",
-        complete: true,
-      },
-      {
-        title: "Todo C",
-        project: "Project C",
-        complete: false,
-      },
-      {
-        title: "Todo D",
-        project: "Project D",
-        complete: false,
-      },
-    ]
-    fakePromise(300, data).then((res) => {
-      toDoState.toDos = [...toDoState.toDos, ...res]
-      toDoState.loading = false
-    })
+  function toggleToDo(toDo: ToDo) {
+    toDo.complete = !toDo.complete
   }
-  getToDos()
-  return { toDoState }
+
+  const completedToDos = computed(() =>
+    state.toDos.filter((toDo) => toDo.complete),
+  )
+
+  const incompleteToDos = computed(() =>
+    state.toDos.filter((toDo) => !toDo.complete),
+  )
+
+  function onEnterToDo() {
+    const { toDo } = state
+    if (state.toDo) {
+      state.toDos.push({ title: toDo, complete: false })
+      state.toDo = ""
+    }
+  }
+
+  return { state, completedToDos, incompleteToDos, onEnterToDo, toggleToDo }
 }

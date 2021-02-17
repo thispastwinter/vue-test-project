@@ -1,0 +1,29 @@
+{
+  "checkbox/value": {
+    "type": "string"
+  },
+  "checkbox/id": {
+    "type": "string"
+  },
+  "checkbox/handleChange": {
+    "type": "function"
+  },
+  "list-to-do/toDos": {
+    "type": "array"
+  },
+  "loading-view/loading": {
+    "type": "boolean"
+  },
+  "text-field/placeholder": {
+    "type": "string"
+  },
+  "text-field/value": {
+    "type": "string"
+  },
+  "text-field/onEnter": {
+    "type": "function"
+  },
+  "typography/variant": {
+    "type": "String as () => Variant"
+  }
+}

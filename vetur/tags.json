@@ -1,0 +1,40 @@
+{
+  "checkbox": {
+    "attributes": [
+      "value",
+      "id",
+      "handleChange"
+    ],
+    "description": ""
+  },
+  "container": {
+    "attributes": [],
+    "description": ""
+  },
+  "list-to-do": {
+    "attributes": [
+      "toDos"
+    ],
+    "description": ""
+  },
+  "loading-view": {
+    "attributes": [
+      "loading"
+    ],
+    "description": ""
+  },
+  "text-field": {
+    "attributes": [
+      "placeholder",
+      "value",
+      "onEnter"
+    ],
+    "description": ""
+  },
+  "typography": {
+    "attributes": [
+      "variant"
+    ],
+    "description": ""
+  }
+}

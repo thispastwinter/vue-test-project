@@ -1,21 +1,42 @@
 <template>
-  <List :label="'title'" :list="toDos" />
+  <div>
+    <ul>
+      <li v-for="(toDo, index) in toDos" :key="index">
+        <div
+          class="flex justify-center items-center"
+          @click="handleClick(toDo)"
+        >
+          <Typography variant="regular">{{ toDo.title }}</Typography>
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropOptions } from "@nuxtjs/composition-api"
-import List from "@/components/List.vue"
 import { ToDo } from "@/types"
+import { useToDos } from "@/compositions"
+import Typography from "./Typography.vue"
 
 export default defineComponent({
-  components: {
-    List,
-  },
+  components: { Typography },
   props: {
     toDos: {
       type: Array,
       required: true,
     } as PropOptions<ToDo[]>,
+  },
+  setup() {
+    const { toggleToDo } = useToDos()
+    return {
+      toggleToDo,
+    }
+  },
+  methods: {
+    handleClick(toDo: ToDo) {
+      this.toggleToDo(toDo)
+    },
   },
 })
 </script>
