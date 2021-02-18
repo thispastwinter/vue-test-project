@@ -9,7 +9,9 @@
         :on-enter="onEnterToDo"
       />
       <ProgressBar :percentage="percentage" class="mx-24 my-4" />
-      <p v-if="percentage === 100">Congrats! You did it! 🎉</p>
+      <Typography v-if="percentage === 100"
+        >Congrats! You did it! 🎉</Typography
+      >
       <Typography v-if="percentage < 100">{{
         `${percentage}% complete`
       }}</Typography>

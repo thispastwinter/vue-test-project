@@ -5,16 +5,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@nuxtjs/composition-api"
+import { defineComponent, PropOptions } from "@nuxtjs/composition-api"
 
 type Variant = "h1" | "h2" | "h3" | "h4" | "h5" | "regular"
 
 export default defineComponent({
   props: {
     variant: {
-      type: String as () => Variant,
+      type: String,
       required: true,
-    },
+      default: "regular",
+    } as PropOptions<Variant>,
   },
 })
 </script>
