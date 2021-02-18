@@ -49,9 +49,6 @@ export default defineComponent({
     Container,
     ProgressBar,
   },
-  metaInfo: {
-    meta: [{ charset: "U+1F389" }],
-  },
   setup() {
     const {
       state,
