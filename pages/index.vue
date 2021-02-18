@@ -1,52 +1,76 @@
 <template>
-  <Container>
-    <div>
-      <Typography class="mb-8" variant="h2">My To-Do App</Typography>
+  <container>
+    <div class="flex-1">
+      <Typography class="mb-8" variant="h2">To-Do List</Typography>
       <TextField
         v-model="toDo"
-        type="text"
+        class="mx-24"
         placeholder="Add a To-do"
         :on-enter="onEnterToDo"
       />
-      <Typography variant="regular">{{ toDo }}</Typography>
+      <ProgressBar :percentage="percentage" class="mx-24 my-4" />
+      <p v-if="percentage === 100">Congrats! You did it! 🎉</p>
+      <Typography v-if="percentage < 100">{{
+        `${percentage}% complete`
+      }}</Typography>
       <div class="mb-8" />
       <div class="container">
         <div>
-          <Typography variant="h5">Completed</Typography>
+          <Typography variant="h5" class="mb-2">Completed</Typography>
           <ListToDo :to-dos="completedToDos" />
         </div>
         <div>
-          <Typography variant="h5">Incomplete</Typography>
+          <Typography variant="h5" class="mb-2">Incomplete</Typography>
           <ListToDo :to-dos="incompleteToDos" />
         </div>
       </div>
     </div>
-  </Container>
+  </container>
 </template>
 
 <script lang="ts">
-import Typography from "@/components/Typography.vue"
-import Container from "@/components/Container.vue"
-import ListToDo from "@/components/ListToDo.vue"
 import { defineComponent, toRefs } from "@nuxtjs/composition-api"
 import { useToDos } from "@/compositions"
-import TextField from "@/components/TextField.vue"
+import {
+  ListToDo,
+  TextField,
+  Typography,
+  Container,
+  ProgressBar,
+} from "@/components"
 
 export default defineComponent({
   components: {
     Typography,
-    Container,
     ListToDo,
     TextField,
+    Container,
+    ProgressBar,
+  },
+  metaInfo: {
+    meta: [{ charset: "U+1F389" }],
   },
   setup() {
-    const { state, onEnterToDo, completedToDos, incompleteToDos } = useToDos()
+    const {
+      state,
+      onEnterToDo,
+      completedToDos,
+      incompleteToDos,
+      percentageComplete,
+    } = useToDos()
     return {
       ...toRefs(state),
       onEnterToDo,
       completedToDos,
       incompleteToDos,
+      percentageComplete,
     }
+  },
+  computed: {
+    percentage(): number {
+      const number: number = (this.percentageComplete as number) * 100 || 0
+      return parseInt(number.toFixed(0))
+    },
   },
 })
 </script>

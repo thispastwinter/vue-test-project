@@ -6,7 +6,9 @@
           class="flex justify-center items-center"
           @click="handleClick(toDo)"
         >
-          <Typography variant="regular">{{ toDo.title }}</Typography>
+          <Typography variant="regular" :class="{ complete: toDo.complete }">{{
+            toDo.title
+          }}</Typography>
         </div>
       </li>
     </ul>
@@ -40,3 +42,9 @@ export default defineComponent({
   },
 })
 </script>
+
+<style>
+.complete {
+  text-decoration-line: line-through;
+}
+</style>

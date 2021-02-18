@@ -6,28 +6,9 @@ interface State {
   toDo: string
 }
 
-const data = [
-  {
-    title: "Todo A",
-    complete: false,
-  },
-  {
-    title: "Todo B",
-    complete: true,
-  },
-  {
-    title: "Todo C",
-    complete: false,
-  },
-  {
-    title: "Todo D",
-    complete: false,
-  },
-]
-
 export default function useToDos() {
   const state = reactive<State>({
-    toDos: data,
+    toDos: [],
     toDo: "",
   })
 
@@ -43,6 +24,10 @@ export default function useToDos() {
     state.toDos.filter((toDo) => !toDo.complete),
   )
 
+  const percentageComplete = computed(
+    () => completedToDos.value.length / state.toDos.length,
+  )
+
   function onEnterToDo() {
     const { toDo } = state
     if (state.toDo) {
@@ -51,5 +36,12 @@ export default function useToDos() {
     }
   }
 
-  return { state, completedToDos, incompleteToDos, onEnterToDo, toggleToDo }
+  return {
+    state,
+    completedToDos,
+    incompleteToDos,
+    onEnterToDo,
+    toggleToDo,
+    percentageComplete,
+  }
 }

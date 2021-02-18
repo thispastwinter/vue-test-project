@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-1 flex rounded-md shadow-sm">
+  <div class="mt-1 flex rounded-md shadow p-2" style="height: 40px">
     <input
       type="text"
       :placeholder="placeholder"
