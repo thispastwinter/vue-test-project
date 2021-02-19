@@ -1,13 +1,21 @@
 import { computed, reactive } from "@nuxtjs/composition-api"
-import { ToDo } from "~/types"
+import { ToDo, ToDoList } from "@/types"
 
 interface State {
+  list: ToDoList
   toDos: ToDo[]
   toDo: string
+  lists: ToDoList[]
 }
 
 export default function useToDos() {
   const state = reactive<State>({
+    list: {
+      title: "",
+      id: "",
+      toDos: [],
+    },
+    lists: [],
     toDos: [],
     toDo: "",
   })
@@ -28,19 +36,43 @@ export default function useToDos() {
     () => completedToDos.value.length / state.toDos.length,
   )
 
-  function onEnterToDo() {
+  function fakeId() {
+    return new Date().toString()
+  }
+
+  function setCurrentList(payload: ToDoList) {
+    state.list = payload
+  }
+
+  function createList(payload: ToDoList["title"]) {
+    const newList: ToDoList = {
+      title: payload,
+      id: fakeId(),
+      toDos: [],
+    }
+    state.lists.push(newList)
+  }
+
+  function createToDo() {
     const { toDo } = state
     if (state.toDo) {
-      state.toDos.push({ title: toDo, complete: false })
+      state.toDos.push({
+        id: fakeId(),
+        title: toDo,
+        complete: false,
+        toDoList: state.list,
+      })
       state.toDo = ""
     }
   }
 
   return {
     state,
+    setCurrentList,
+    createList,
     completedToDos,
     incompleteToDos,
-    onEnterToDo,
+    createToDo,
     toggleToDo,
     percentageComplete,
   }

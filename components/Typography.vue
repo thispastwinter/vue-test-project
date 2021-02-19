@@ -13,7 +13,6 @@ export default defineComponent({
   props: {
     variant: {
       type: String,
-      required: true,
       default: "regular",
     } as PropOptions<Variant>,
   },

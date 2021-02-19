@@ -6,7 +6,7 @@
         v-model="toDo"
         class="mx-24"
         placeholder="Add a To-do"
-        :on-enter="onEnterToDo"
+        :on-enter="createToDo"
       />
       <ProgressBar :percentage="percentage" class="mx-24 my-4" />
       <Typography v-if="percentage === 100"
@@ -52,14 +52,14 @@ export default defineComponent({
   setup() {
     const {
       state,
-      onEnterToDo,
+      createToDo,
       completedToDos,
       incompleteToDos,
       percentageComplete,
     } = useToDos()
     return {
       ...toRefs(state),
-      onEnterToDo,
+      createToDo,
       completedToDos,
       incompleteToDos,
       percentageComplete,

@@ -1,3 +1,4 @@
 import type ToDo from "./ToDo"
+import type ToDoList from "./ToDoList"
 
-export { ToDo }
+export { ToDo, ToDoList }

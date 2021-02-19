@@ -5,6 +5,8 @@ import ListToDo from "./ListToDo.vue"
 import ProgressBar from "./ProgressBar.vue"
 import TextField from "./TextField.vue"
 import Typography from "./Typography.vue"
+import Navbar from "./Navbar.vue"
+import Modal from "./Modal.vue"
 
 export {
   Card,
@@ -14,4 +16,6 @@ export {
   ProgressBar,
   TextField,
   Typography,
+  Navbar,
+  Modal,
 }

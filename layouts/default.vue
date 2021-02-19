@@ -1,8 +1,20 @@
 <template>
-  <div class="m-8">
+  <div>
+    <Navbar />
     <Nuxt />
   </div>
 </template>
+
+<script>
+import { Navbar } from "@/components"
+import { defineComponent } from "@nuxtjs/composition-api"
+
+export default defineComponent({
+  components: {
+    Navbar,
+  },
+})
+</script>
 
 <style>
 html {
