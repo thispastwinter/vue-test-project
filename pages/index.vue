@@ -1,33 +1,33 @@
 <template>
-  <container>
-    <div class="flex-1">
-      <Typography class="mb-8" variant="h2">To-Do List</Typography>
-      <TextField
-        v-model="toDo"
-        class="mx-24"
-        placeholder="Add a To-do"
-        :on-enter="createToDo"
-      />
-      <ProgressBar :percentage="percentage" class="mx-24 my-4" />
-      <Typography v-if="percentage === 100"
-        >Congrats! You did it! 🎉</Typography
-      >
-      <Typography v-if="percentage < 100">{{
-        `${percentage}% complete`
-      }}</Typography>
-      <div class="mb-8" />
-      <div class="container">
-        <div>
-          <Typography variant="h5" class="mb-2">Completed</Typography>
-          <ListToDo :to-dos="completedToDos" />
-        </div>
-        <div>
-          <Typography variant="h5" class="mb-2">Incomplete</Typography>
-          <ListToDo :to-dos="incompleteToDos" />
-        </div>
+  <div>
+    <Typography class="mb-8" variant="h2">To-Do List</Typography>
+    <TextField
+      v-model="toDo"
+      class="mx-24"
+      placeholder="Add a To-do"
+      :on-enter="createToDo"
+    />
+    <ProgressBar :percentage="percentage" class="mx-24 my-4" />
+    <Typography v-if="percentage === 100">Congrats! You did it! 🎉</Typography>
+    <Typography v-if="percentage < 100">{{
+      `${percentage}% complete`
+    }}</Typography>
+    <div class="mb-8" />
+    <div class="container">
+      <div>
+        <Typography variant="h5" class="mb-2">Lists</Typography>
+        <ToDoLists :lists="lists" />
+      </div>
+      <div>
+        <Typography variant="h5" class="mb-2">Completed</Typography>
+        <ListToDo :to-dos="completedToDos" />
+      </div>
+      <div>
+        <Typography variant="h5" class="mb-2">Incomplete</Typography>
+        <ListToDo :to-dos="incompleteToDos" />
       </div>
     </div>
-  </container>
+  </div>
 </template>
 
 <script lang="ts">
@@ -37,8 +37,8 @@ import {
   ListToDo,
   TextField,
   Typography,
-  Container,
   ProgressBar,
+  ToDoLists,
 } from "@/components"
 
 export default defineComponent({
@@ -46,8 +46,8 @@ export default defineComponent({
     Typography,
     ListToDo,
     TextField,
-    Container,
     ProgressBar,
+    ToDoLists,
   },
   setup() {
     const {

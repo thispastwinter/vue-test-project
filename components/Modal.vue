@@ -3,7 +3,11 @@
     <div
       class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
     >
-      <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+      <div
+        class="fixed inset-0 transition-opacity"
+        aria-hidden="true"
+        @click="onCancel"
+      >
         <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
       </div>
       <span
@@ -25,24 +29,29 @@
                   id="modal-headline"
                   class="text-lg leading-6 font-medium text-gray-900"
                 >
-                  Create New List
+                  {{ title }}
                 </h3>
               </div>
             </div>
           </div>
-          <TextField placeholder="Type a list name..." class="mx-10 mb-4" />
+          <TextField
+            v-model="list"
+            placeholder="Type a list name..."
+            class="mx-10 mb-4"
+            :on-enter="onConfirm"
+          />
           <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             <button
               type="button"
               class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-800 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-              @click="onConfirm()"
+              @click="onConfirm"
             >
               {{ confirmText }}
             </button>
             <button
               type="button"
               class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-              @click="onCancel()"
+              @click="onCancel"
             >
               {{ cancelText }}
             </button>
@@ -54,7 +63,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@nuxtjs/composition-api"
+import { defineComponent, toRefs } from "@nuxtjs/composition-api"
+import { useToDos } from "@/compositions"
 import TextField from "./TextField.vue"
 
 export default defineComponent({
@@ -87,10 +97,11 @@ export default defineComponent({
       required: true,
     },
   },
-  methods: {
-    onChange(e: any) {
-      this.$emit("change", e.target.value)
-    },
+  setup() {
+    const { state } = useToDos()
+    return {
+      ...toRefs(state),
+    }
   },
 })
 </script>

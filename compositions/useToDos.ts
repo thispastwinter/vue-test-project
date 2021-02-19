@@ -2,7 +2,7 @@ import { computed, reactive } from "@nuxtjs/composition-api"
 import { ToDo, ToDoList } from "@/types"
 
 interface State {
-  list: ToDoList
+  list: string
   toDos: ToDo[]
   toDo: string
   lists: ToDoList[]
@@ -10,11 +10,7 @@ interface State {
 
 export default function useToDos() {
   const state = reactive<State>({
-    list: {
-      title: "",
-      id: "",
-      toDos: [],
-    },
+    list: "",
     lists: [],
     toDos: [],
     toDo: "",
@@ -40,13 +36,9 @@ export default function useToDos() {
     return new Date().toString()
   }
 
-  function setCurrentList(payload: ToDoList) {
-    state.list = payload
-  }
-
-  function createList(payload: ToDoList["title"]) {
+  function createList() {
     const newList: ToDoList = {
-      title: payload,
+      title: state.list,
       id: fakeId(),
       toDos: [],
     }
@@ -55,20 +47,20 @@ export default function useToDos() {
 
   function createToDo() {
     const { toDo } = state
+    const newToDo = {
+      id: fakeId(),
+      title: toDo,
+      complete: false,
+      toDoList: undefined,
+    }
     if (state.toDo) {
-      state.toDos.push({
-        id: fakeId(),
-        title: toDo,
-        complete: false,
-        toDoList: state.list,
-      })
+      state.toDos.push(newToDo)
       state.toDo = ""
     }
   }
 
   return {
     state,
-    setCurrentList,
     createList,
     completedToDos,
     incompleteToDos,

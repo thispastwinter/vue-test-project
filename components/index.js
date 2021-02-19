@@ -7,6 +7,7 @@ import TextField from "./TextField.vue"
 import Typography from "./Typography.vue"
 import Navbar from "./Navbar.vue"
 import Modal from "./Modal.vue"
+import ToDoLists from "./ToDoLists.vue"
 
 export {
   Card,
@@ -18,4 +19,5 @@ export {
   Typography,
   Navbar,
   Modal,
+  ToDoLists,
 }
