@@ -10,13 +10,9 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store<State>({
   state: () => ({
-    currentList: {
-      id: "",
-      title: "",
-      toDos: [],
-    },
-    toDos: [],
-    lists: [{ title: "To-Do List", id: fakeId(), toDos: [] }],
+    currentList: "",
+    toDos: {},
+    lists: { [fakeId()]: { title: "To-Do List", id: fakeId(), toDos: [] } },
   }),
   mutations: {
     [Mutations.TOGGLE_TODO](_state, toDo: ToDo) {
@@ -27,12 +23,10 @@ export const store = new Vuex.Store<State>({
         id: fakeId(),
         title: toDo,
         complete: false,
-        toDoList: undefined,
+        toDoList: state.currentList,
       }
-      state.toDos.push(newToDo)
-      state.currentList.toDos.push(newToDo.id)
+      state.toDos = { ...state.toDos, [newToDo.id]: newToDo }
       toDo = ""
-      console.log(state.currentList)
     },
     [Mutations.CREATE_LIST](state, title) {
       const newList = {
@@ -40,18 +34,18 @@ export const store = new Vuex.Store<State>({
         id: fakeId(),
         toDos: [],
       }
-      state.lists.push(newList)
+      state.lists = { ...state.lists, [newList.id]: newList }
     },
   },
   getters: {
     [Getters.COMPLETED_TO_DOS](state) {
-      return state.toDos.filter((toDo) => toDo.complete)
+      return Object.values(state.toDos).filter((toDo) => toDo.complete)
     },
     [Getters.INCOMPLETE_TO_DOS](state) {
-      return state.toDos.filter((toDo) => !toDo.complete)
+      return Object.values(state.toDos).filter((toDo) => !toDo.complete)
     },
     [Getters.PERCENTAGE_COMPLETE](state, getters) {
-      const totalToDos = state.toDos.length
+      const totalToDos = Object.values(state.toDos).length
       const percentageComplete =
         getters[Getters.COMPLETED_TO_DOS].length / totalToDos
       return parseInt((percentageComplete * 100).toFixed(0)) || 0
@@ -59,7 +53,7 @@ export const store = new Vuex.Store<State>({
   },
   actions: {
     [Actions.SET_DEFAULT_LIST](store) {
-      store.state.currentList = store.state.lists[0]
+      store.state.currentList = Object.values(store.state.lists)[0].id
     },
   },
 })

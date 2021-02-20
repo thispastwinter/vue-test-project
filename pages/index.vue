@@ -16,7 +16,7 @@
     <div class="container">
       <div>
         <Typography variant="h5" class="mb-2">Lists</Typography>
-        <ToDoLists :lists="lists" />
+        <ToDoLists :lists="Object.values(lists)" />
       </div>
       <div>
         <Typography variant="h5" class="mb-2">Completed</Typography>
@@ -61,6 +61,7 @@ export default defineComponent({
   },
   computed: {
     completedToDos() {
+      console.log(store.getters[Getters.COMPLETED_TO_DOS])
       return store.getters[Getters.COMPLETED_TO_DOS]
     },
     incompleteToDos() {
