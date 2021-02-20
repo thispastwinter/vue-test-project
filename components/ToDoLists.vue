@@ -1,10 +1,12 @@
 <template>
   <div>
     <ul>
-      <li v-for="(list, index) in lists" :key="index">
-        <Typography @click="setCurrentList(list.id)">{{
-          list.title
-        }}</Typography>
+      <li
+        v-for="(list, index) in lists"
+        :key="index"
+        @click="() => setCurrentList(list.id)"
+      >
+        <Typography>{{ list.title }}</Typography>
       </li>
     </ul>
   </div>

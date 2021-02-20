@@ -49,10 +49,18 @@ export const store = new Vuex.Store<State>({
       return state.lists[state.currentList].title
     },
     [Getters.COMPLETED_TO_DOS](state) {
-      return Object.values(state.toDos).filter((toDo) => toDo.complete)
+      return Object.values(state.toDos).filter(
+        (toDo) =>
+          toDo.complete &&
+          state.lists[state.currentList].toDos.includes(toDo.id),
+      )
     },
     [Getters.INCOMPLETE_TO_DOS](state) {
-      return Object.values(state.toDos).filter((toDo) => !toDo.complete)
+      return Object.values(state.toDos).filter(
+        (toDo) =>
+          !toDo.complete &&
+          state.lists[state.currentList].toDos.includes(toDo.id),
+      )
     },
     [Getters.PERCENTAGE_COMPLETE](state, getters) {
       const totalToDos = Object.values(state.toDos).length
@@ -66,6 +74,7 @@ export const store = new Vuex.Store<State>({
       store.state.currentList = Object.values(store.state.lists)[0].id
     },
     [Actions.SET_CURRENT_LIST](store, id) {
+      console.log(id)
       store.state.currentList = id
     },
   },
