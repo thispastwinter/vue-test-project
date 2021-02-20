@@ -31,8 +31,8 @@ export const store = new Vuex.Store<State>({
       }
       state.toDos.push(newToDo)
       state.currentList.toDos.push(newToDo.id)
-      state.lists.push(state.currentList)
       toDo = ""
+      console.log(state.currentList)
     },
     [Mutations.CREATE_LIST](state, title) {
       const newList = {
