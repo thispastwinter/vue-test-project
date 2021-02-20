@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Typography class="mb-8" variant="h2">{{ currentList.title }}</Typography>
+    <Typography class="mb-8" variant="h2">{{ currentListTitle }}</Typography>
     <TextField
       v-model="toDo"
       class="mx-24"
@@ -52,16 +52,20 @@ export default defineComponent({
   },
   setup() {
     const toDo = ref<string>("")
-    const { currentList, lists } = store.state
+    const { currentList } = store.state
     return {
       toDo,
-      lists,
       currentList,
     }
   },
   computed: {
+    lists() {
+      return store.getters.getLists
+    },
+    currentListTitle() {
+      return store.getters.currentListTitle
+    },
     completedToDos() {
-      console.log(store.getters[Getters.COMPLETED_TO_DOS])
       return store.getters[Getters.COMPLETED_TO_DOS]
     },
     incompleteToDos() {

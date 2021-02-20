@@ -26,6 +26,10 @@ export const store = new Vuex.Store<State>({
         toDoList: state.currentList,
       }
       state.toDos = { ...state.toDos, [newToDo.id]: newToDo }
+      state.lists[state.currentList] = {
+        ...state.lists[state.currentList],
+        toDos: [...state.lists[state.currentList].toDos, newToDo.id],
+      }
       toDo = ""
     },
     [Mutations.CREATE_LIST](state, title) {
@@ -38,6 +42,12 @@ export const store = new Vuex.Store<State>({
     },
   },
   getters: {
+    getLists(state) {
+      return Object.values(state.lists)
+    },
+    currentListTitle(state) {
+      return state.lists[state.currentList].title
+    },
     [Getters.COMPLETED_TO_DOS](state) {
       return Object.values(state.toDos).filter((toDo) => toDo.complete)
     },
@@ -54,6 +64,9 @@ export const store = new Vuex.Store<State>({
   actions: {
     [Actions.SET_DEFAULT_LIST](store) {
       store.state.currentList = Object.values(store.state.lists)[0].id
+    },
+    [Actions.SET_CURRENT_LIST](store, id) {
+      store.state.currentList = id
     },
   },
 })

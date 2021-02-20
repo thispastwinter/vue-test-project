@@ -2,7 +2,9 @@
   <div>
     <ul>
       <li v-for="(list, index) in lists" :key="index">
-        <Typography>{{ list.title }}</Typography>
+        <Typography @click="setCurrentList(list.id)">{{
+          list.title
+        }}</Typography>
       </li>
     </ul>
   </div>
@@ -11,7 +13,8 @@
 <script lang="ts">
 import { defineComponent, PropOptions } from "@nuxtjs/composition-api"
 import { Typography } from "@/components"
-import { ToDoList } from "@/types"
+import { Actions, ToDoList } from "@/types"
+import { store } from "~/store"
 
 export default defineComponent({
   components: {
@@ -22,6 +25,11 @@ export default defineComponent({
       type: Array,
       required: true,
     } as PropOptions<ToDoList[]>,
+  },
+  methods: {
+    setCurrentList(id: string) {
+      store.dispatch(Actions.SET_CURRENT_LIST, id)
+    },
   },
 })
 </script>
