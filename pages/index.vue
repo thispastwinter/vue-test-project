@@ -31,8 +31,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs } from "@nuxtjs/composition-api"
-import { useToDos } from "@/compositions"
+import { defineComponent, ref } from "@nuxtjs/composition-api"
+import { Getters, Mutations } from "@/types"
+import { mapGetters } from "vuex"
 import {
   ListToDo,
   TextField,
@@ -50,25 +51,21 @@ export default defineComponent({
     ToDoLists,
   },
   setup() {
-    const {
-      state,
-      createToDo,
-      completedToDos,
-      incompleteToDos,
-      percentageComplete,
-    } = useToDos()
+    const toDo = ref<string>("")
     return {
-      ...toRefs(state),
-      createToDo,
-      completedToDos,
-      incompleteToDos,
-      percentageComplete,
+      toDo,
     }
   },
   computed: {
-    percentage(): number {
-      const number: number = (this.percentageComplete as number) * 100 || 0
-      return parseInt(number.toFixed(0))
+    ...mapGetters({
+      completedToDos: Getters.COMPLETED_TO_DOS,
+      incompleteToDos: Getters.INCOMPLETE_TO_DOS,
+    }),
+  },
+  methods: {
+    createToDo() {
+      this.$store.commit(Mutations.CREATE_TODO, this.toDo)
+      this.toDo = ""
     },
   },
 })

@@ -17,8 +17,7 @@
 
 <script lang="ts">
 import { defineComponent, PropOptions } from "@nuxtjs/composition-api"
-import { ToDo } from "@/types"
-import { useToDos } from "@/compositions"
+import { Mutations, ToDo } from "@/types"
 import Typography from "./Typography.vue"
 
 export default defineComponent({
@@ -29,15 +28,9 @@ export default defineComponent({
       required: true,
     } as PropOptions<ToDo[]>,
   },
-  setup() {
-    const { toggleToDo } = useToDos()
-    return {
-      toggleToDo,
-    }
-  },
   methods: {
     handleClick(toDo: ToDo) {
-      this.toggleToDo(toDo)
+      this.$store.commit(Mutations.TOGGLE_TODO, toDo)
     },
   },
 })

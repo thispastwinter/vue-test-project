@@ -1,17 +1,9 @@
 import Vuex from "vuex"
-import { ToDo, ToDoList } from "~/types"
-
-interface State {
-  toDos: ToDo[]
-  lists: ToDoList[]
-}
+import { Mutations, State, Getters } from "@/types"
 
 function fakeId() {
   return new Date().toString()
 }
-
-const TOGGLE_TODO = "TOGGLE_TODO"
-const CREATE_TODO = "CREATE_TODO"
 
 export const store = new Vuex.Store<State>({
   state: () => ({
@@ -19,17 +11,32 @@ export const store = new Vuex.Store<State>({
     lists: [],
   }),
   mutations: {
-    [TOGGLE_TODO](_state, { toDo }) {
+    [Mutations.TOGGLE_TODO](_state, toDo) {
       toDo.complete = !toDo.complete
     },
-    [CREATE_TODO](state, { title }) {
+    [Mutations.CREATE_TODO](state, toDo) {
       const newToDo = {
         id: fakeId(),
-        title,
+        title: toDo,
         complete: false,
         toDoList: undefined,
       }
       state.toDos.push(newToDo)
+      toDo = ""
+    },
+  },
+  getters: {
+    [Getters.COMPLETED_TO_DOS](state) {
+      return state.toDos.filter((toDo) => toDo.complete)
+    },
+    [Getters.INCOMPLETE_TO_DOS](state) {
+      return state.toDos.filter((toDo) => !toDo.complete)
+    },
+    [Getters.PERCENTAGE_COMPLETE](state, getters) {
+      const totalToDos = state.toDos.length
+      const percentageComplete =
+        totalToDos / getters[Getters.COMPLETED_TO_DOS].length
+      return percentageComplete * 100 || 0
     },
   },
 })
