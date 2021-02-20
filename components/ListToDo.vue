@@ -18,6 +18,7 @@
 <script lang="ts">
 import { defineComponent, PropOptions } from "@nuxtjs/composition-api"
 import { Mutations, ToDo } from "@/types"
+import { store } from "@/store"
 import Typography from "./Typography.vue"
 
 export default defineComponent({
@@ -30,7 +31,7 @@ export default defineComponent({
   },
   methods: {
     handleClick(toDo: ToDo) {
-      this.$store.commit(Mutations.TOGGLE_TODO, toDo)
+      store.commit(Mutations.TOGGLE_TODO, toDo)
     },
   },
 })

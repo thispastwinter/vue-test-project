@@ -1,9 +1,12 @@
 import Vuex from "vuex"
 import { Mutations, State, Getters } from "@/types"
+import Vue from "vue"
 
 function fakeId() {
   return new Date().toString()
 }
+
+Vue.use(Vuex)
 
 export const store = new Vuex.Store<State>({
   state: () => ({
@@ -35,8 +38,8 @@ export const store = new Vuex.Store<State>({
     [Getters.PERCENTAGE_COMPLETE](state, getters) {
       const totalToDos = state.toDos.length
       const percentageComplete =
-        totalToDos / getters[Getters.COMPLETED_TO_DOS].length
-      return percentageComplete * 100 || 0
+        getters[Getters.COMPLETED_TO_DOS].length / totalToDos
+      return parseInt((percentageComplete * 100).toFixed(0)) || 0
     },
   },
 })

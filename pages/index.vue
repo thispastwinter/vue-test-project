@@ -15,10 +15,6 @@
     <div class="mb-8" />
     <div class="container">
       <div>
-        <Typography variant="h5" class="mb-2">Lists</Typography>
-        <ToDoLists :lists="lists" />
-      </div>
-      <div>
         <Typography variant="h5" class="mb-2">Completed</Typography>
         <ListToDo :to-dos="completedToDos" />
       </div>
@@ -33,14 +29,8 @@
 <script lang="ts">
 import { defineComponent, ref } from "@nuxtjs/composition-api"
 import { Getters, Mutations } from "@/types"
-import { mapGetters } from "vuex"
-import {
-  ListToDo,
-  TextField,
-  Typography,
-  ProgressBar,
-  ToDoLists,
-} from "@/components"
+import { ListToDo, TextField, Typography, ProgressBar } from "@/components"
+import { store } from "@/store"
 
 export default defineComponent({
   components: {
@@ -48,7 +38,6 @@ export default defineComponent({
     ListToDo,
     TextField,
     ProgressBar,
-    ToDoLists,
   },
   setup() {
     const toDo = ref<string>("")
@@ -57,14 +46,19 @@ export default defineComponent({
     }
   },
   computed: {
-    ...mapGetters({
-      completedToDos: Getters.COMPLETED_TO_DOS,
-      incompleteToDos: Getters.INCOMPLETE_TO_DOS,
-    }),
+    completedToDos() {
+      return store.getters[Getters.COMPLETED_TO_DOS]
+    },
+    incompleteToDos() {
+      return store.getters[Getters.INCOMPLETE_TO_DOS]
+    },
+    percentage() {
+      return store.getters[Getters.PERCENTAGE_COMPLETE]
+    },
   },
   methods: {
     createToDo() {
-      this.$store.commit(Mutations.CREATE_TODO, this.toDo)
+      store.commit(Mutations.CREATE_TODO, this.toDo)
       this.toDo = ""
     },
   },
