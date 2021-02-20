@@ -120,21 +120,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, toRefs } from "@nuxtjs/composition-api"
-import { useToDos } from "@/compositions"
+import { defineComponent, ref } from "@nuxtjs/composition-api"
 import Modal from "./Modal.vue"
+import { store } from "~/store"
+import { Mutations, ToDoList } from "~/types"
 
 export default defineComponent({
   components: { Modal },
   setup() {
-    const { createList, state } = useToDos()
     const openMenu = ref(false)
     const openModal = ref(false)
     return {
       openMenu,
       openModal,
-      createList,
-      ...toRefs(state),
     }
   },
   methods: {
@@ -144,8 +142,8 @@ export default defineComponent({
     toggleModal() {
       return (this.openModal = !this.openModal)
     },
-    onConfirm() {
-      this.createList()
+    onConfirm(list: ToDoList) {
+      store.commit(Mutations.CREATE_LIST, list)
       this.toggleModal()
     },
   },

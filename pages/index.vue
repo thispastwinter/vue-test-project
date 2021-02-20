@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Typography class="mb-8" variant="h2">To-Do List</Typography>
+    <Typography class="mb-8" variant="h2">{{ currentList.title }}</Typography>
     <TextField
       v-model="toDo"
       class="mx-24"
@@ -15,6 +15,10 @@
     <div class="mb-8" />
     <div class="container">
       <div>
+        <Typography variant="h5" class="mb-2">Lists</Typography>
+        <ToDoLists :lists="lists" />
+      </div>
+      <div>
         <Typography variant="h5" class="mb-2">Completed</Typography>
         <ListToDo :to-dos="completedToDos" />
       </div>
@@ -28,8 +32,14 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "@nuxtjs/composition-api"
-import { Getters, Mutations } from "@/types"
-import { ListToDo, TextField, Typography, ProgressBar } from "@/components"
+import { Actions, Getters, Mutations } from "@/types"
+import {
+  ListToDo,
+  TextField,
+  Typography,
+  ProgressBar,
+  ToDoLists,
+} from "@/components"
 import { store } from "@/store"
 
 export default defineComponent({
@@ -38,11 +48,15 @@ export default defineComponent({
     ListToDo,
     TextField,
     ProgressBar,
+    ToDoLists,
   },
   setup() {
     const toDo = ref<string>("")
+    const { currentList, lists } = store.state
     return {
       toDo,
+      lists,
+      currentList,
     }
   },
   computed: {
@@ -55,6 +69,9 @@ export default defineComponent({
     percentage() {
       return store.getters[Getters.PERCENTAGE_COMPLETE]
     },
+  },
+  beforeCreate() {
+    store.dispatch(Actions.SET_DEFAULT_LIST)
   },
   methods: {
     createToDo() {
