@@ -38,13 +38,13 @@
             v-model="list"
             placeholder="Type a list name..."
             class="mx-10 mb-4"
-            :on-enter="() => onConfirm(list)"
+            :on-enter="() => handleConfirm(list)"
           />
           <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             <button
               type="button"
               class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-800 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-              @click="() => onConfirm(list)"
+              @click="() => handleConfirm(list)"
             >
               {{ confirmText }}
             </button>
@@ -102,6 +102,12 @@ export default defineComponent({
     return {
       list,
     }
+  },
+  methods: {
+    handleConfirm(list: string) {
+      ;(this.onConfirm as Function)(list)
+      this.list = ""
+    },
   },
 })
 </script>

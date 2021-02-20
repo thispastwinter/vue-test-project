@@ -74,7 +74,6 @@ export const store = new Vuex.Store<State>({
       store.state.currentList = Object.values(store.state.lists)[0].id
     },
     [Actions.SET_CURRENT_LIST](store, id) {
-      console.log(id)
       store.state.currentList = id
     },
   },
