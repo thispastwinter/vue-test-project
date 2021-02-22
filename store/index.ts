@@ -28,8 +28,12 @@ export const store = new Store<State>({
     lists: { ...createDefaultList() },
   }),
   mutations: {
-    [Mutations.TOGGLE_TODO](_state, toDo: ToDo) {
-      toDo.complete = !toDo.complete
+    [Mutations.TOGGLE_TODO](state, toDo: ToDo) {
+      const currentToDo = state.toDos[toDo.id]
+      state.toDos[toDo.id] = {
+        ...currentToDo,
+        complete: !currentToDo.complete,
+      }
     },
     [Mutations.CREATE_TODO](state, toDo: ToDo["title"]) {
       const newToDo = {
