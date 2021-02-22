@@ -4,7 +4,7 @@ interface ToDo {
   id: string
   title: string
   complete: boolean
-  toDoList: ToDoList["id"]
+  toDoListId: ToDoList["id"]
 }
 
 export default ToDo

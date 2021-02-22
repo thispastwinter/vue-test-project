@@ -1,69 +1,79 @@
-import Vuex from "vuex"
-import { Mutations, State, Getters, ToDo, Actions } from "@/types"
+import Vuex, { Store } from "vuex"
+import { State, ToDo, ToDoList } from "@/types"
+import { Actions, Getters, Mutations } from "@/constants"
+import UUID, { uuid } from "vue-uuid"
 import Vue from "vue"
 
-function fakeId() {
-  return new Date().toString()
+Vue.use(Vuex, UUID)
+
+function generateUUID() {
+  return uuid.v4()
 }
 
-Vue.use(Vuex)
+function createDefaultList(): { [key: string]: ToDoList } {
+  const id = generateUUID()
+  return {
+    [id]: {
+      id,
+      title: "To-Do List",
+      toDos: [],
+    },
+  }
+}
 
-export const store = new Vuex.Store<State>({
+export const store = new Store<State>({
   state: () => ({
-    currentList: "",
+    currentListId: "",
     toDos: {},
-    lists: { [fakeId()]: { title: "To-Do List", id: fakeId(), toDos: [] } },
+    lists: { ...createDefaultList() },
   }),
   mutations: {
     [Mutations.TOGGLE_TODO](_state, toDo: ToDo) {
       toDo.complete = !toDo.complete
     },
-    [Mutations.CREATE_TODO](state, toDo) {
+    [Mutations.CREATE_TODO](state, toDo: ToDo["title"]) {
       const newToDo = {
-        id: fakeId(),
+        id: generateUUID(),
         title: toDo,
         complete: false,
-        toDoList: state.currentList,
+        toDoListId: state.currentListId,
       }
       state.toDos = { ...state.toDos, [newToDo.id]: newToDo }
-      state.lists[state.currentList] = {
-        ...state.lists[state.currentList],
-        toDos: [...state.lists[state.currentList].toDos, newToDo.id],
+      state.lists[state.currentListId] = {
+        ...state.lists[state.currentListId],
+        toDos: [...state.lists[state.currentListId].toDos, newToDo.id],
       }
       toDo = ""
     },
-    [Mutations.CREATE_LIST](state, title) {
+    [Mutations.CREATE_LIST](state, title: ToDoList["title"]) {
       const newList = {
         title,
-        id: fakeId(),
+        id: generateUUID(),
         toDos: [],
       }
       state.lists = { ...state.lists, [newList.id]: newList }
     },
   },
   getters: {
-    getLists(state) {
+    [Getters.GET_LISTS](state): ToDoList[] {
       return Object.values(state.lists)
     },
-    currentListTitle(state) {
-      return state.lists[state.currentList].title
+    [Getters.CURRENT_LIST_TITLE](state): ToDoList["title"] {
+      return state.lists[state.currentListId].title
     },
-    [Getters.COMPLETED_TO_DOS](state) {
+    [Getters.COMPLETED_TO_DOS](state): ToDo[] {
       return Object.values(state.toDos).filter(
-        (toDo) =>
-          toDo.complete &&
-          state.lists[state.currentList].toDos.includes(toDo.id),
+        (toDo) => state.currentListId === toDo.toDoListId && toDo.complete,
       )
     },
-    [Getters.INCOMPLETE_TO_DOS](state) {
+    [Getters.INCOMPLETE_TO_DOS](state): ToDo[] {
       return Object.values(state.toDos).filter(
-        (toDo) =>
-          !toDo.complete &&
-          state.lists[state.currentList].toDos.includes(toDo.id),
+        (toDo) => state.currentListId === toDo.toDoListId && !toDo.complete,
       )
     },
-    [Getters.PERCENTAGE_COMPLETE](state, getters) {
-      const totalToDos = Object.values(state.toDos).length
+    [Getters.PERCENTAGE_COMPLETE](state, getters): number {
+      const totalToDos = Object.values(state.lists[state.currentListId].toDos)
+        .length
       const percentageComplete =
         getters[Getters.COMPLETED_TO_DOS].length / totalToDos
       return parseInt((percentageComplete * 100).toFixed(0)) || 0
@@ -71,10 +81,10 @@ export const store = new Vuex.Store<State>({
   },
   actions: {
     [Actions.SET_DEFAULT_LIST](store) {
-      store.state.currentList = Object.values(store.state.lists)[0].id
+      store.state.currentListId = Object.values(store.state.lists)[0].id
     },
-    [Actions.SET_CURRENT_LIST](store, id) {
-      store.state.currentList = id
+    [Actions.SET_CURRENT_LIST](store, id: ToDoList["id"]) {
+      store.state.currentListId = id
     },
   },
 })

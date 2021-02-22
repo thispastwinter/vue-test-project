@@ -67,4 +67,8 @@ html {
   color: #fff;
   background-color: #35495e;
 }
+
+.list-container {
+  width: 100px;
+}
 </style>

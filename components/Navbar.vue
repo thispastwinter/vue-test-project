@@ -121,9 +121,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "@nuxtjs/composition-api"
+import { store } from "@/store"
+import { ToDoList } from "@/types"
+import { Mutations } from "@/constants"
 import Modal from "./Modal.vue"
-import { store } from "~/store"
-import { Mutations, ToDoList } from "~/types"
 
 export default defineComponent({
   components: { Modal },

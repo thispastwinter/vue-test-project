@@ -17,7 +17,8 @@
 
 <script lang="ts">
 import { defineComponent, PropOptions } from "@nuxtjs/composition-api"
-import { Mutations, ToDo } from "@/types"
+import { ToDo } from "@/types"
+import { Mutations } from "@/constants"
 import { store } from "@/store"
 import Typography from "./Typography.vue"
 

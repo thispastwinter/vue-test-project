@@ -15,8 +15,9 @@
 <script lang="ts">
 import { defineComponent, PropOptions } from "@nuxtjs/composition-api"
 import { Typography } from "@/components"
-import { Actions, ToDoList } from "@/types"
-import { store } from "~/store"
+import { ToDoList } from "@/types"
+import { Actions } from "@/constants"
+import { store } from "@/store"
 
 export default defineComponent({
   components: {
