@@ -39,11 +39,12 @@ export const store = new Store<State>({
         toDoListId: state.currentListId,
       }
       state.toDos = { ...state.toDos, [newToDo.id]: newToDo }
-      state.lists[state.currentListId] = {
-        ...state.lists[state.currentListId],
-        toDos: [...state.lists[state.currentListId].toDos, newToDo.id],
+      const currentListRef = state.currentListId
+      const currentList = state.lists[currentListRef]
+      state.lists[currentListRef] = {
+        ...currentList,
+        toDos: [...currentList.toDos, newToDo.id],
       }
-      toDo = ""
     },
     [Mutations.CREATE_LIST](state, title: ToDoList["title"]) {
       const newList = {
