@@ -16,7 +16,7 @@
     "@nuxt/typescript-runtime": "^2.0.1",
     "@nuxt/utils-edge": "^2.15.0-26883395.04646c5e",
     "@nuxtjs/axios": "^5.12.5",
-    "@nuxtjs/composition-api": "^0.19.1",
+    "@nuxtjs/composition-api": "^0.29.2",
     "core-js": "^3.8.3",
     "lodash": "^4.17.21",
     "nuxt": "^2.14.12",
